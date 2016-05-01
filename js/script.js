@@ -31,7 +31,7 @@ function generateSequence(){
 
 function playCpuSequence(){
 	var i = 0;
-	setInterval(function() {
+	var timer = setInterval(function() {
 		switch (sequence[i]){
 			case "red":
 				$(".red").css({"backgroundColor": "#FF1919"});
@@ -61,6 +61,10 @@ function playCpuSequence(){
 					$(".yellow").css({"backgroundColor": "#AEAC00"});
 				}, 1000);
 				break;
+		}
+		console.log("I");
+		if (i == sequence.length - 1) {
+			clearInterval(timer);
 		}
 		i++;
 	}, 1500);
