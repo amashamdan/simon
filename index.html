@@ -5,36 +5,35 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="css/main.css">
 	<!-- A call to google fonts. -->
-	<link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/script.js"></script>	
 </head>
 <body>
 	<div class="container">
 		<div class="header-section">
-			<h3 class="header">Simon Game</h3>
+			<h2 class="header">Simon Game</h2>
 			<p class="instruction">Follow the sequence.</p>
 		</div>
 		<div class="game-area">
 			<div class="controls">
-				<div class="count">
-					<div class="score">0</div>
-					<p>Score</p>
-				</div>
 				<div class="start">
-					<button class="start-button">Start/Reset</button>
+					<button class="control-button start-button">Start/Reset</button>
 				</div>
 				<div class="strict">
-					<button class="strict-button">Strict Mode</button>
+					<button class="control-button strict-button">Strict Mode</button>
 				</div>
 			</div>
 			<div class="buttons">
-				<button class="green"></button>
-				<button class="red"></button>
-				<button class="yellow"></button>
-				<button class="blue"></button>
+				<button class="color-button green"></button>
+				<button class="color-button red"></button>
+				<button class="color-button yellow"></button>
+				<button class="color-button blue"></button>
 			</div>
+			<div class="score">00</div>
 		</div>
+		<hr/>
 		<div class="footer">
 			<!-- Author's information -->
 			<div class="author">
