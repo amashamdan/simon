@@ -1,0 +1,16 @@
+.footer {
+	margin-top: 20px;
+}
+
+.author {
+	font-size: 0.8em;
+	color: gray;
+}
+
+.author p {
+	margin: 2px;	
+}
+
+.author a {
+	color: gray;
+}
