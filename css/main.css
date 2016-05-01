@@ -83,22 +83,22 @@ body {
 	cursor: pointer;
 }
 
-.red {
+#red {
 	border-top-right-radius: 200px;
 	background-color: #BC0000;
 }
 
-.green {
+#green {
 	border-top-left-radius: 200px;
 	background-color: #009600;
 }
 
-.yellow {
+#yellow {
 	border-bottom-left-radius: 200px;
 	background-color: #AEAC00;
 }
 
-.blue {
+#blue {
 	border-bottom-right-radius: 200px;
 	background-color: #001EDC;
 }
