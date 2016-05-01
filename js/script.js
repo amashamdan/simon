@@ -27,14 +27,20 @@ $(document).ready(function(){
 		generateSequence();
 		playCpuSequence();
 	})
-	/*
+	
 	$(".color-button").mousedown(function(){
 		// Checks if cpu is playing its sequence.
 		if (!playStatus){
 			var clicked = $(this).attr("id");
 			$('#' + clicked).css({"backgroundColor": colorCodes[clicked + "Light"]});
+			playSound(clicked);
 		}
-	})*/
+	})
+
+	$(".color-button").mouseup(function(){
+		var clicked = $(this).attr("id");
+		$('#' + clicked).css({"backgroundColor": colorCodes[clicked + "Heavy"]});
+	})
 	/*
 	$(".strict").click(function(){
 		strictStatus = !strictStatus;
