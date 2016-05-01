@@ -1,3 +1,120 @@
+body {
+	font-family: 'Josefin Sans', sans-serif;
+	background-image: url("images/background.jpg");
+}
+
+.container {
+	margin: 0 auto;
+	width: 100%;
+	max-width: 700px;
+}
+
+.header-section {
+	color: white;
+}
+
+.header {
+	text-align: center;
+}
+
+.game-area {
+	text-align: center;
+	position: relative;
+	margin-bottom: -130px;
+}
+
+.controls {
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	width: 50%;
+}
+
+.start, .strict {
+	width: 50%;
+}
+
+.control-button {
+	width: 70%;
+	height: 30px;
+	border-radius: 5px;
+}
+
+.start-button {
+	background-color: white;
+	border: none;
+	color: #545454;
+}
+
+.strict-button {
+	background-color: red;
+	border: none;
+	color: white;
+}
+
+.control-button:hover {
+	cursor: pointer;
+}
+
+.buttons {
+	position: relative;
+	width: 70%;
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding: 30px 0 30px 0;
+}
+
+.color-button {
+	width: 200px;
+	height: 200px;
+	border: none;
+	border: 3px solid white;
+}
+
+.color-button:hover {
+	cursor: pointer;
+}
+
+.red {
+	border-top-right-radius: 200px;
+	background-color: #BC0000;
+}
+
+.green {
+	border-top-left-radius: 200px;
+	background-color: #009600;
+}
+
+.yellow {
+	border-bottom-left-radius: 200px;
+	background-color: #AEAC00;
+}
+
+.blue {
+	border-bottom-right-radius: 200px;
+	background-color: #001EDC;
+}
+
+.score {
+	font-family: 'Orbitron', sans-serif;
+	font-size: 2.5em;
+	color: #00FF00;
+	position: fixed;
+	width: 150px;
+	height: 150px;
+	top: -308px;
+	left: 272px;
+	background-color: #2E2E2E;
+	position: relative;
+	z-index: 2;
+	vertical-align: middle;
+	line-height: 150px;
+	border-radius: 100px;
+	border: 4px solid white;
+}
+
 .footer {
 	margin-top: 20px;
 }
