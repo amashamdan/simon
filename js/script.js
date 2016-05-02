@@ -1,3 +1,9 @@
+/* STRICT MODE (NOTICE STRICT MODE IS DEFAULT IN THIS CODE.) */
+/* LOSS MESSAGE */
+/* WITHOUT STRICT REPEAT SAME SEQUENCE */
+/* REDUCE TIME */
+/* REMOVE CONSOLE.LOG MESSAGES */
+
 var colors = ["red", "green", "blue", "yellow"];
 var colorCodes = {
 	redHeavy: "#BC0000",
@@ -21,6 +27,10 @@ var playerCounter = 0;
 
 $(document).ready(function(){
 	$(".start-button").click(function(){
+		if ($(this).attr("class") == "new-game start-button"){
+			$(".message").fadeToggle();
+		}
+		playerCounter = 0;
 		sequence = [];
 		clicked = undefined;
 		score = 0;
@@ -45,6 +55,11 @@ $(document).ready(function(){
 			var playerRight = checkPlayerSequence(clicked);
 			if (!playerRight) {
 				// terminate
+			} else if (playerRight && playerCounter == 20) {
+				score++;
+				updateScore(score);
+				$(".message-text").html("Great job, you won!")
+				$(".message").fadeToggle();
 			} else if (playerRight && playerCounter == sequence.length){
 				playStatus = true;
 				playerCounter = 0;
