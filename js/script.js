@@ -17,6 +17,7 @@ var redAudio = new Audio('sounds/red.mp3');
 var blueAudio = new Audio('sounds/blue.mp3');
 var yellowAudio = new Audio('sounds/yellow.mp3');
 var playStatus = true;
+var playerCounter = 0;
 
 $(document).ready(function(){
 	$(".start-button").click(function(){
@@ -38,8 +39,23 @@ $(document).ready(function(){
 	})
 
 	$(".color-button").mouseup(function(){
-		var clicked = $(this).attr("id");
-		$('#' + clicked).css({"backgroundColor": colorCodes[clicked + "Heavy"]});
+		if (!playStatus) {
+			var clicked = $(this).attr("id");
+			$('#' + clicked).css({"backgroundColor": colorCodes[clicked + "Heavy"]});
+			var playerRight = checkPlayerSequence(clicked);
+			if (!playerRight) {
+				// terminate
+			} else if (playerRight && playerCounter == sequence.length){
+				playStatus = true;
+				playerCounter = 0;
+				score++;
+				updateScore(score);
+				setTimeout(function() {
+					generateSequence();
+					playCpuSequence();	
+				}, 2000);
+			}
+		}
 	})
 	/*
 	$(".strict").click(function(){
@@ -88,5 +104,25 @@ function playSound(color) {
 		case "yellow":
 			yellowAudio.play();
 			break;
+	}
+}
+
+function checkPlayerSequence(clicked){
+	playerCounter++;
+	// playercounter - 1 because counter is incremented before checking
+	if (clicked == sequence[playerCounter - 1]){
+		console.log("true")
+		return true;
+	} else {
+		console.log("false")
+		return false;
+	}
+}
+
+function updateScore(score){
+	if (score < 10){
+		$(".score").html("0" + score);
+	} else {
+		$(".score").html(score);
 	}
 }
