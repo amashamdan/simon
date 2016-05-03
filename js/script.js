@@ -1,5 +1,3 @@
-/* STRICT MODE (NOTICE STRICT MODE IS DEFAULT IN THIS CODE.) */
-/* WITHOUT STRICT REPEAT SAME SEQUENCE */
 /* REMOVE CONSOLE.LOG MESSAGES */
 
 var colors = ["red", "green", "blue", "yellow"];
@@ -14,6 +12,7 @@ var colorCodes = {
 	yellowLight: "#FFFC08"
 }
 var sequence = [];
+var noStrictSequence = [];
 var strictStatus = false;
 var score = 0;
 var greenAudio = new Audio('sounds/green.mp3');
@@ -22,6 +21,7 @@ var blueAudio = new Audio('sounds/blue.mp3');
 var yellowAudio = new Audio('sounds/yellow.mp3');
 var playStatus = true;
 var playerCounter = 0;
+var round = 1;
 
 $(document).ready(function(){
 	$(".start-button").click(function(){
@@ -79,7 +79,16 @@ $(document).ready(function(){
 })
 
 function generateSequence(){
-	sequence.push(colors[Math.floor(Math.random() * 4)]);
+	if (strictStatus) {
+		sequence.push(colors[Math.floor(Math.random() * 4)]);
+	} else if ((!strictStatus && round == 1) ||
+		(!strictStatus && round > 1 && sequence.length >= noStrictSequence.length)){
+		sequence.push(colors[Math.floor(Math.random() * 4)]);
+		noStrictSequence.push(sequence[sequence.length - 1]);
+		round++;
+	} else if (!strictStatus && round > 1 && sequence.length < noStrictSequence.length) {
+		sequence.push(noStrictSequence[sequence.length]);
+	}
 }
 
 function playCpuSequence(){
