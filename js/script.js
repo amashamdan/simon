@@ -1,4 +1,7 @@
+/* The colors array, played sequence is generated with the help of this array. */
 var colors = ["red", "green", "blue", "yellow"];
+/* This objects holds the hex codes of all the colors, heavy color corresponds
+to off state and light color to on. A description of each color is used as a key. */
 var colorCodes = {
 	redHeavy: "#BC0000",
 	redLight: "#FF1919",
@@ -9,64 +12,115 @@ var colorCodes = {
 	yellowHeavy: "#AEAC00",
 	yellowLight: "#FFFC08"
 }
+/* Sequence array holds the sequence of colors to be played by the CPU. */
 var sequence = [];
+/* The sequence played by CPU is permanently saved here to be replayed when the strict
+mode is turned off. */
 var noStrictSequence = [];
+/* Strict status indicates whether the strict mode is on or not. True means strict on. */
 var strictStatus = false;
+/* This variable holds the status of the strict-button. When clicked this becomes true. */
 var strictClicked = false;
+/* The score variable holds the player's score. */
 var score = 0;
+/* The following four variables are audio objects, one for each color. */
 var greenAudio = new Audio('sounds/green.mp3');
 var redAudio = new Audio('sounds/red.mp3');
 var blueAudio = new Audio('sounds/blue.mp3');
 var yellowAudio = new Audio('sounds/yellow.mp3');
+/* playStatus is true when CPU is playing a sequence, it is used to prevent the user
+from clicking a colored button until the CPU plays the whole sequence. */
 var playStatus = true;
+/* playerCounter counts how many colors the player has played in the sequence. */
 var playerCounter = 0;
+/* round = 1 means this is the first game for the user, sequence will be randomly
+generated even if strict mode is off. */
 var round = 1;
 
+/* jQuery handkers must be placed here for proper operation. */
 $(document).ready(function(){
+	/* Start/reset button click handler */
 	$(".start-button").click(function(){
+		/* There are two button to start the game, one on the main page, on the message
+		div. This is statements checks if the button is the one on the message div, if
+		so, the message div is faded out. */
 		if ($(this).attr("class") == "new-game start-button"){
 			$(".message").fadeToggle();
 		}
+		/* If strict button is clicked, strict mode is turned on, this means that strict
+		mode goes into effect when the game is restarted. */
 		if (strictClicked) {
 			//strict goes in effect when the game restarts.
 			strictStatus = true;
 		}
+		/* playerCounter is reset to 0 */
 		playerCounter = 0;
+		/* sequence is reset. */
 		sequence = [];
+		/* This variable holds the id of the pressed button color. it is reset to undefined. */
 		clicked = undefined;
+		/* Score is reset to 0*/
 		score = 0;
+		/* html in score div displays 0 */
 		$(".score").html("00");
+		/* generateSequence is called and the CPU starts playing a sequence. */
 		generateSequence();
 		playCpuSequence();
 	})
 	
+	/* When the green, red, yellow or blue button pressed, the following executes. */
 	$(".color-button").mousedown(function(){
-		// Checks if cpu is playing its sequence.
+		// Checks if CPU is playing its sequence. If not, the function is executed.
 		if (!playStatus){
+			/* The id of the clicked button is stored in clicked (the id is the color
+			itself.) */
 			var clicked = $(this).attr("id");
+			/* The clicked button is detected and its color is changed to a light
+			color. Light color means the button will be lit. */
 			$('#' + clicked).css({"backgroundColor": colorCodes[clicked + "Light"]});
+			/* playSound function is called with the clicked color to play a sound. */
 			playSound(clicked);
 		}
 	})
 
+	/* This handler handles the case of releasing mouse button after clicking on a
+	button color. */
 	$(".color-button").mouseup(function(){
+		/* checks if CPU is playing sequence or not. */
 		if (!playStatus) {
+			/* The clicked color is saved in clicked */
 			var clicked = $(this).attr("id");
+			/* The color is changed to heavy color (button turned off). */
 			$('#' + clicked).css({"backgroundColor": colorCodes[clicked + "Heavy"]});
+			/* The varible playerRight holds the result of checkPlayerSequence function.
+			This function checks if the player is playing the sequence correctly. */
 			var playerRight = checkPlayerSequence(clicked);
+			/* If the player is wrong, the game ends, and a message fades in announcing
+			the score. */
 			if (!playerRight) {
 				$(".message-text").html("Oooops, you got it wrong!<br/>Your score is " + score);
 				$(".message").fadeToggle();
+			/* If the player played the sequence correctly, and the score is 20, the player
+			wins and a message appears announcing the win. */
 			} else if (playerRight && playerCounter == 20) {
+				/* Score is incremented */
 				score++;
+				/* updateScore function is called to update the html in the score div. */
 				updateScore(score);
 				$(".message-text").html("Great job, you won!")
 				$(".message").fadeToggle();
+			/* If the player plays the sequence correctly, and the playerCount (number of
+			clicked colored buttons) equal the sequence array length, it means the player
+			completed the sequence. */
 			} else if (playerRight && playerCounter == sequence.length){
+				/* playStatus set to true to stop accepting player input. */
 				playStatus = true;
+				/* counter reset */
 				playerCounter = 0;
+				/* Score is updated. */
 				score++;
 				updateScore(score);
+				/* a timer waits for 1 seond before the CPU starts playing its sequence. */
 				setTimeout(function() {
 					generateSequence();
 					playCpuSequence();	
@@ -75,40 +129,63 @@ $(document).ready(function(){
 		}
 	})
 	
+	/* Strict button event handler. */
 	$(".strict").click(function(){
-		var strictClicked = true;
+		/* strictClicked is set to true. */
+		strictClicked = true;
+		/* strictStatus is inverted/ */
 		strictStatus = !strictStatus;
+		/* Color of the strict button is changed. */
 		$(".strict-button").toggleClass("strict-on");
 	})
 })
 
+/* generateSequence function, it adds a new color to the sequence to be played. */
 function generateSequence(){
+	/* If strict mode is on, a random color is added to sequence. */
 	if (strictStatus) {
 		sequence.push(colors[Math.floor(Math.random() * 4)]);
+	/* If strict if off and the player is playing the first game, or if strict isoff
+	and it's not the first game and all old colors in the save sequence are played: */
 	} else if ((!strictStatus && round == 1) ||
 		(!strictStatus && round > 1 && sequence.length >= noStrictSequence.length)){
+		/* A random color generated and pushed to sequence. */
 		sequence.push(colors[Math.floor(Math.random() * 4)]);
+		/* The same color is saved in the noStrictSequence. */
 		noStrictSequence.push(sequence[sequence.length - 1]);
+		/* round is incremented. */
 		round++;
+	/* If strict is off and it's not the first game and not all colors have been played
+	from the noStrictSequence, an element at index equal to sequence length is added to
+	sequence. */
 	} else if (!strictStatus && round > 1 && sequence.length < noStrictSequence.length) {
 		sequence.push(noStrictSequence[sequence.length]);
 	}
 }
 
+/* playCpuSequence plays the sequence saved in sequence array. */
 function playCpuSequence(){
+	/* playStatus set to true to stop player's input. */
 	playStatus = true;
+	/* i is a counter (no for loop used), it's reset to zero each time function is called. */ 
 	var i = 0;
+	/* setInterval function which player a color in the sequence every 750 ms. */
 	var timer = setInterval(function() {
 		/* sequence i is saved in color  because if sequence[i] is in setTimeout function,
 		the value of i would change before the heacy color is restored. So it's moved to
 		the color variable. */
 		var color = sequence[i];
+		/* The color is lit. */
 		$("#" + color).css({"backgroundColor": colorCodes[color + "Light"]});
+		/* timeout is set to turn off the color after 500ms. */
 		setTimeout(function() {
 			$("#" + color).css({"backgroundColor": colorCodes[color + "Heavy"]});
 		}, 500);
+		/* The sound is the clicked color is played. */
 		playSound(color);
+		/* If the whole sequence is played: */
 		if (i == sequence.length - 1) {
+			/* Timer is cleared, and playStatus set to false to allow player input. */
 			clearInterval(timer);
 			playStatus = false;
 		}
@@ -116,7 +193,9 @@ function playCpuSequence(){
 	}, 750);
 }
 
+/* playSound function plays a sound corresponding to the clicked color. */
 function playSound(color) {
+	/* A switch statement checks the color and plays its sound. */
 	switch (color){
 		case "red":
 			redAudio.play();
@@ -133,8 +212,15 @@ function playSound(color) {
 	}
 }
 
+
+/* The function checks if the player is still playing the sequence correctly. (checked
+after each user's click.) */
 function checkPlayerSequence(clicked){
+	/* playerCounter incremented */
 	playerCounter++;
+	/* If the clicked color is the same as the color in sequence array at the index
+	if playerCounter, true is returned. Else, the user made a mistake and false is
+	returned. */
 	// playercounter - 1 because counter is incremented before checking
 	if (clicked == sequence[playerCounter - 1]){
 		return true;
@@ -143,7 +229,10 @@ function checkPlayerSequence(clicked){
 	}
 }
 
+/* This function updates the score by updating the score div's html. */
 function updateScore(score){
+	/* The score is always displayed with two digits. If the score is less than 10,
+	a zero is added before the score. */
 	if (score < 10){
 		$(".score").html("0" + score);
 	} else {
