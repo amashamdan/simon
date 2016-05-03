@@ -52,6 +52,8 @@ $(document).ready(function(){
 		if (strictClicked) {
 			//strict goes in effect when the game restarts.
 			strictStatus = true;
+		} else {
+			strictStatus = false;
 		}
 		/* playerCounter is reset to 0 */
 		playerCounter = 0;
@@ -131,10 +133,8 @@ $(document).ready(function(){
 	
 	/* Strict button event handler. */
 	$(".strict").click(function(){
-		/* strictClicked is set to true. */
-		strictClicked = true;
-		/* strictStatus is inverted/ */
-		strictStatus = !strictStatus;
+		/* strictClicked is inverted. */
+		strictClicked = !strictClicked;
 		/* Color of the strict button is changed. */
 		$(".strict-button").toggleClass("strict-on");
 	})
