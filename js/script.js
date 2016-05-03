@@ -1,5 +1,3 @@
-/* REMOVE CONSOLE.LOG MESSAGES */
-
 var colors = ["red", "green", "blue", "yellow"];
 var colorCodes = {
 	redHeavy: "#BC0000",
@@ -14,6 +12,7 @@ var colorCodes = {
 var sequence = [];
 var noStrictSequence = [];
 var strictStatus = false;
+var strictClicked = false;
 var score = 0;
 var greenAudio = new Audio('sounds/green.mp3');
 var redAudio = new Audio('sounds/red.mp3');
@@ -27,6 +26,10 @@ $(document).ready(function(){
 	$(".start-button").click(function(){
 		if ($(this).attr("class") == "new-game start-button"){
 			$(".message").fadeToggle();
+		}
+		if (strictClicked) {
+			//strict goes in effect when the game restarts.
+			strictStatus = true;
 		}
 		playerCounter = 0;
 		sequence = [];
@@ -71,11 +74,12 @@ $(document).ready(function(){
 			}
 		}
 	})
-	/*
+	
 	$(".strict").click(function(){
+		var strictClicked = true;
 		strictStatus = !strictStatus;
 		$(".strict-button").toggleClass("strict-on");
-	})*/
+	})
 })
 
 function generateSequence(){
@@ -104,7 +108,6 @@ function playCpuSequence(){
 			$("#" + color).css({"backgroundColor": colorCodes[color + "Heavy"]});
 		}, 500);
 		playSound(color);
-		console.log("I");
 		if (i == sequence.length - 1) {
 			clearInterval(timer);
 			playStatus = false;
@@ -134,10 +137,8 @@ function checkPlayerSequence(clicked){
 	playerCounter++;
 	// playercounter - 1 because counter is incremented before checking
 	if (clicked == sequence[playerCounter - 1]){
-		console.log("true")
 		return true;
 	} else {
-		console.log("false")
 		return false;
 	}
 }
