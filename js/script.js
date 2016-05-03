@@ -68,7 +68,7 @@ $(document).ready(function(){
 				setTimeout(function() {
 					generateSequence();
 					playCpuSequence();	
-				}, 2000);
+				}, 1000);
 			}
 		}
 	})
@@ -94,7 +94,7 @@ function playCpuSequence(){
 		$("#" + color).css({"backgroundColor": colorCodes[color + "Light"]});
 		setTimeout(function() {
 			$("#" + color).css({"backgroundColor": colorCodes[color + "Heavy"]});
-		}, 1000);
+		}, 500);
 		playSound(color);
 		console.log("I");
 		if (i == sequence.length - 1) {
@@ -102,7 +102,7 @@ function playCpuSequence(){
 			playStatus = false;
 		}
 		i++;
-	}, 1500);
+	}, 750);
 }
 
 function playSound(color) {
