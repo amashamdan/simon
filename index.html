@@ -4,23 +4,32 @@
 	<title>Simon Game</title>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="css/main.css">
-	<!-- A call to google fonts. -->
+	<!-- two calls to google fonts. -->
 	<link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/script.js"></script>	
 </head>
 <body>
+	<!-- Message div, this message fades in whenever the game ends to announce result. It also has a "New Game button." -->
 	<div class="message">
 		<p class="message-text"></p>
 		<button class="new-game start-button">New Game</button>
 	</div>
+	<!-- Container div containing all elements. -->
 	<div class="container">
+		<!-- Header section, contains title and brief game instructions. -->
 		<div class="header-section">
 			<br/><h2 class="header">Simon Game</h2>
-			<p class="instruction">Follow the sequence.</p>
-		</div>
+			<p class="instruction">- The goal is to repeat the sequence played by the computer 20 times.<br/>
+			- If the player makes a mistake the game ends.<br/>
+			- With strict mode off, the same sequence plays when the game isrestarted.<br/>
+			- With strict mode on, a new random sequence is generated when the game is restarted.<br/>
+			- Turning strict mode on and off takes effect when the game is restarted.</p>
+		</div><br/>
+		<!-- The game area, it includes the control button (Start and strict mode buttons), The color buttons and the score display. -->
 		<div class="game-area">
+			<!-- The control div which has the control buttons: Start and Strict. -->
 			<div class="controls">
 				<div class="start">
 					<button class="control-button start-button">Start/Reset</button>
@@ -29,15 +38,18 @@
 					<button class="control-button strict-button">Strict Mode</button>
 				</div>
 			</div>
+			<!-- The colored buttons div. -->
 			<div class="buttons">
 				<button class="color-button" id="green"></button>
 				<button class="color-button" id="red"></button>
 				<button class="color-button" id="yellow"></button>
 				<button class="color-button" id="blue"></button>
 			</div>
+			<!-- The score div. -->
 			<div class="score">00</div>
 		</div>
 		<hr/>
+		<!-- Footer section, contains Author's name and pages. -->
 		<div class="footer">
 			<!-- Author's information -->
 			<div class="author">
