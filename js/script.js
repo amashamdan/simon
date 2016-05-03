@@ -1,7 +1,5 @@
 /* STRICT MODE (NOTICE STRICT MODE IS DEFAULT IN THIS CODE.) */
-/* LOSS MESSAGE */
 /* WITHOUT STRICT REPEAT SAME SEQUENCE */
-/* REDUCE TIME */
 /* REMOVE CONSOLE.LOG MESSAGES */
 
 var colors = ["red", "green", "blue", "yellow"];
@@ -54,7 +52,8 @@ $(document).ready(function(){
 			$('#' + clicked).css({"backgroundColor": colorCodes[clicked + "Heavy"]});
 			var playerRight = checkPlayerSequence(clicked);
 			if (!playerRight) {
-				// terminate
+				$(".message-text").html("Oooops, you got it wrong!<br/>Your score is " + score);
+				$(".message").fadeToggle();
 			} else if (playerRight && playerCounter == 20) {
 				score++;
 				updateScore(score);
