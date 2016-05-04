@@ -14,11 +14,6 @@ var colorCodes = {
 }
 /* Sequence array holds the sequence of colors to be played by the CPU. */
 var sequence = [];
-/* The sequence played by CPU is permanently saved here to be replayed when the strict
-mode is turned off. */
-var noStrictSequence = [];
-/* Strict status indicates whether the strict mode is on or not. True means strict on. */
-var strictStatus = false;
 /* This variable holds the status of the strict-button. When clicked this becomes true. */
 var strictClicked = false;
 /* The score variable holds the player's score. */
@@ -33,9 +28,6 @@ from clicking a colored button until the CPU plays the whole sequence. */
 var playStatus = true;
 /* playerCounter counts how many colors the player has played in the sequence. */
 var playerCounter = 0;
-/* round = 1 means this is the first game for the user, sequence will be randomly
-generated even if strict mode is off. */
-var round = 1;
 
 /* jQuery handkers must be placed here for proper operation. */
 $(document).ready(function(){
@@ -46,14 +38,6 @@ $(document).ready(function(){
 		so, the message div is faded out. */
 		if ($(this).attr("class") == "new-game start-button"){
 			$(".message").fadeToggle();
-		}
-		/* If strict button is clicked, strict mode is turned on, this means that strict
-		mode goes into effect when the game is restarted. */
-		if (strictClicked) {
-			//strict goes in effect when the game restarts.
-			strictStatus = true;
-		} else {
-			strictStatus = false;
 		}
 		/* playerCounter is reset to 0 */
 		playerCounter = 0;
@@ -97,11 +81,19 @@ $(document).ready(function(){
 			/* The varible playerRight holds the result of checkPlayerSequence function.
 			This function checks if the player is playing the sequence correctly. */
 			var playerRight = checkPlayerSequence(clicked);
-			/* If the player is wrong, the game ends, and a message fades in announcing
-			the score. */
+			/* If the player is wrong: */
 			if (!playerRight) {
-				$(".message-text").html("Oooops, you got it wrong!<br/>Your score is " + score);
-				$(".message").fadeToggle();
+				/* If strict mode is on, the game ends, a message with result fades in. */
+				if (strictClicked) {
+					$(".message-text").html("Oooops, you got it wrong! Game is over.<br/>Your score is " + score);
+					$(".message").fadeToggle();
+				/* If strict mode is off, a warning message appears telling the user that
+				the sequence will play again... game is not restarted. */
+				} else {
+					$(".warning-text").html("Oooops, you got it wrong!<br/>" + 
+											"Sequence will play again, focus to get it right.");
+					$(".warning-message").fadeToggle();
+				}
 			/* If the player played the sequence correctly, and the score is 20, the player
 			wins and a message appears announcing the win. */
 			} else if (playerRight && playerCounter == 20) {
@@ -138,29 +130,22 @@ $(document).ready(function(){
 		/* Color of the strict button is changed. */
 		$(".strict-button").toggleClass("strict-on");
 	})
+
+	/* The continue button (in the warning-message div) handler. */
+	$(".continue").click(function(){
+		/* The warning message fades out. */
+		$(".warning-message").fadeOut();
+		/* playerCounter is reset since the player will start playing from beginning. */
+		playerCounter = 0;
+		/* The last sequence is played again. */
+		playCpuSequence();
+	})
 })
 
 /* generateSequence function, it adds a new color to the sequence to be played. */
 function generateSequence(){
-	/* If strict mode is on, a random color is added to sequence. */
-	if (strictStatus) {
-		sequence.push(colors[Math.floor(Math.random() * 4)]);
-	/* If strict if off and the player is playing the first game, or if strict isoff
-	and it's not the first game and all old colors in the save sequence are played: */
-	} else if ((!strictStatus && round == 1) ||
-		(!strictStatus && round > 1 && sequence.length >= noStrictSequence.length)){
-		/* A random color generated and pushed to sequence. */
-		sequence.push(colors[Math.floor(Math.random() * 4)]);
-		/* The same color is saved in the noStrictSequence. */
-		noStrictSequence.push(sequence[sequence.length - 1]);
-		/* round is incremented. */
-		round++;
-	/* If strict is off and it's not the first game and not all colors have been played
-	from the noStrictSequence, an element at index equal to sequence length is added to
-	sequence. */
-	} else if (!strictStatus && round > 1 && sequence.length < noStrictSequence.length) {
-		sequence.push(noStrictSequence[sequence.length]);
-	}
+	/* A new random color from colors array is generated and pushed into sequence.*/
+	sequence.push(colors[Math.floor(Math.random() * 4)]);
 }
 
 /* playCpuSequence plays the sequence saved in sequence array. */
