@@ -16,16 +16,19 @@
 		<p class="message-text"></p>
 		<button class="new-game start-button">New Game</button>
 	</div>
+	<!-- Warning messageessage div, this message fades in whenever the game is in no strict mode and the user enters the sequence incorrectly. It also has a "Keep Trying" button. -->
+	<div class="warning-message">
+		<p class="warning-text"></p>
+		<button class="continue">Keep Trying</button>	
+	</div>
 	<!-- Container div containing all elements. -->
 	<div class="container">
 		<!-- Header section, contains title and brief game instructions. -->
 		<div class="header-section">
 			<br/><h2 class="header">Simon Game</h2>
 			<p class="instruction">- The goal is to repeat the sequence played by the computer 20 times.<br/>
-			- If the player makes a mistake the game ends.<br/>
-			- With strict mode off, the same sequence plays when the game isrestarted.<br/>
-			- With strict mode on, a new random sequence is generated when the game is restarted.<br/>
-			- Turning strict mode on and off takes effect when the game is restarted.</p>
+			- If the strict mode is off (strict button red) and the user plays the sequence incorrectly, the computer plays the sequence again without restarting the game.<br/>
+			- If the strict mode is on (strict button green) and the user plays the sequence incorrectly, the game ends. The user restart the game with a new sequence.
 		</div><br/>
 		<!-- The game area, it includes the control button (Start and strict mode buttons), The color buttons and the score display. -->
 		<div class="game-area">
